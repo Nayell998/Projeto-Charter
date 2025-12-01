@@ -1,1 +1,241 @@
+Biblioteca Solidária — Changelog.
+
+
+
+---
+
+Versão 3.0 — 09/11/2025
+
+Nesta versão, o sistema recebeu aprimoramentos significativos em funcionalidades, interface e confiabilidade. O objetivo principal foi tornar a aplicação mais robusta, organizada e adequada ao uso contínuo.
+
+Novidades
+
+Implementação do botão “Livro Perdido”, que realiza:
+
+Registro automático da data e da hora da ocorrência.
+
+Registro da identificação da pessoa responsável pela perda.
+
+Destaque visual específico para essa categoria.
+
+
+Inclusão do botão “Atualizar”, que permite recarregar a lista de livros sem reiniciar o sistema.
+
+Adição das colunas “Data da Perda” e “Quem Perdeu” na tabela principal.
+
+Reestruturação completa da interface, agora mais organizada, centralizada e com melhor distribuição funcional.
+
+Criação de um sistema de logs detalhados, registrando cada ação do usuário com data e hora.
+
+Substituição definitiva do antigo arquivo TXT pelo armazenamento em JSON.
+
+Implementação de detecção automática e eliminação de livros duplicados.
+
+Registro completo de data e hora para: cadastro, empréstimo, devolução e registros de perda.
+
+
+Correções
+
+Correção do erro KeyError: 'data_devolucao' durante a listagem de livros.
+
+Resolução de inconsistências ao excluir livros com variações de maiúsculas e minúsculas.
+
+Tratamento adequado para arquivos JSON corrompidos, evitando falhas na execução.
+
+Correção de duplicidade do título principal na interface.
+
+Ajustes de alinhamento dos botões e campos de entrada.
+
+Correção no carregamento inicial dos dados, impedindo falhas quando o arquivo estava vazio.
+
+
+Melhorias
+
+Interface modernizada utilizando o framework ttkbootstrap.
+
+Padronização de botões com ícones, cores e organização visual unificada.
+
+Aperfeiçoamento dos logs, com registros mais claros e formatados.
+
+Adição de janela de confirmação para exclusão de livros.
+
+Reorganização completa do código, com modularização e inserção de comentários explicativos.
+
+Inclusão dos campos “perdido” e “data_perda” na estrutura em JSON.
+
+
+Autores
+
+Fernando: Estrutura inicial, leitura e gravação de dados.
+
+Fábio: Interface gráfica, integração com JSON, sistema de logs e design organizacional.
+
+Thiago: Desenvolvimento da lógica principal (cadastro, empréstimo, devolução e exclusão).
+
+Edimar: Testes funcionais, depuração e validação da interface.
+
+
+
+---
+
+Versão 2.0 — 08/11/2025
+
+Esta versão marcou a transição do sistema baseado em terminal para uma interface gráfica funcional.
+
+Novidades
+
+Desenvolvimento da primeira interface gráfica utilizando ttkbootstrap.
+
+Implementação dos botões principais:
+
+Cadastrar
+
+Emprestar
+
+Devolver
+
+Excluir
+
+
+Inclusão da função “Listar livros” diretamente na interface.
+
+Migração do sistema de armazenamento para JSON.
+
+Criação dos primeiros logs de ações básicas.
+
+Implementação de carregamento e salvamento automático dos dados.
+
+
+Correções
+
+Ajuste no salvamento de dados, que anteriormente sobrescrevia o arquivo texto incorretamente.
+
+Correção de problemas relacionados à acentuação (UTF-8).
+
+Correção de inconsistências nas informações de empréstimo e devolução.
+
+
+Melhorias
+
+Transição completa do modo texto para interface gráfica.
+
+Organização inicial do layout com botões bem distribuídos.
+
+Criação de logs básicos para acompanhamento das ações do usuário.
+
+
+Autores
+
+Fernando: Migração de TXT para JSON.
+
+Fábio: Desenvolvimento da interface inicial.
+
+Thiago: Ajustes das funções principais de manipulação de livros.
+
+Edimar: Testes e análise de usabilidade.
+
+
+
+---
+
+Versão 1.0 — 05/11/2025
+
+Primeira versão funcional do sistema, construída de forma simples e totalmente executada no terminal.
+
+Novidades
+
+Sistema baseado em interface de linha de comando.
+
+Armazenamento em arquivo TXT.
+
+Implementação das primeiras funções:
+
+Cadastrar livros
+
+Emprestar livros
+
+Devolver livros
+
+Listar livros
+
+
+
+Limitações
+
+Ausência de tratamento de erros.
+
+Não havia registro de datas ou logs de ações.
+
+Interface totalmente textual.
+
+Dados de empréstimo e devolução sem histórico consistente.
+
+
+Autores
+
+Fernando e Thiago: Estrutura inicial e lógica principal.
+
+Fábio: Organização e padronização do código.
+
+Edimar: Testes iniciais e feedback sobre uso.
+
+
+
+---
+
+Linha do Tempo do Projeto
+
+Data	Versão	Principais Mudanças
+
+05/11/2025	1.0	Primeira versão em terminal com armazenamento TXT
+08/11/2025	2.0	Interface gráfica inicial e migração para JSON
+09/11/2025	3.0	Registro de livros perdidos, logs completos e interface aprimorada
+
+
+
+---
+
+Status Atual
+
+Versão: 3.0
+
+Última atualização: 09/11/2025
+
+Release: Estável
+
+Tecnologias utilizadas: Python 3.12, Tkinter, ttkbootstrap, JSON
+
+
+Planejamento para a Versão 4.0
+
+Exportação de relatórios em PDF e Excel.
+
+Adição de filtro por status (Disponível, Emprestado, Perdido).
+
+Criação de painel de estatísticas com gráficos.
+
+Implementação de sistema de usuários e permissões.
+
+
+
+---
+
+Equipe do Projeto
+
+Nome	Função	Contribuições Principais
+
+Fernando  Estrutura e persistência	Sistema de salvamento, leitura e deduplicação
+Fábio	Interface e experiência	Layout, integração com JSON e sistema de logs
+Thiago	Lógica do sistema	Cadastro, empréstimo e devolução
+Edimar	Testes e qualidade	Detecção de erros e validação funcional
+
+
+
+---
+
+Resumo Geral
+
+O projeto Biblioteca Solidária evoluiu de um simples script em terminal para uma aplicação desktop completa e estruturada, com interface moderna, armazenamento organizado em JSON, sistema de logs e funcionalidades ampliadas.
+A aplicação encontra-se estável, documentada e pronta para futuras expansões.
+
 
