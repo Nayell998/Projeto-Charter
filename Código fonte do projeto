@@ -82,6 +82,79 @@ def remover_duplicados():
             novos.append(livro)
     biblioteca[:] = novos
     salvar_dados()
+
+# ============================================================
+#   SEÇÃO 2 — FÁBIO
+#   Interface gráfica, tabelas, botões, busca, mensagens
+# ============================================================
+
+
+# --- STATUS do livro para exibição na tabela ---
+def obter_status(livro):
+    if livro.get("perdido", False):
+        return f"Perdido por {livro.get('quem_perdeu', '-')}", ""
+    elif livro.get("emprestado", False):
+        return f"Emprestado para {livro.get('quem', '-')}", ""
+    elif livro.get("data_devolucao"):
+        return "Devolvido", ""
+    else:
+        return "Disponível", ""
+
+
+# --- LISTAR LIVROS NA TABELA ---
+def listar_livros(tree):
+    for item in tree.get_children():
+        tree.delete(item)
+
+    for livro in biblioteca:
+        status, icone = obter_status(livro)
+        tree.insert("", "end", values=(
+            icone,
+            livro.get("titulo", ""),
+            livro.get("autor", ""),
+            status,
+            livro.get("data_cadastro", "-"),
+            livro.get("data_emprestimo", "-") or "-",
+            livro.get("data_devolucao", "-") or "-",
+            livro.get("data_perda", "-") or "-"
+        ))
+
+
+# --- BUSCAR LIVRO ---
+def buscar_livro(termo, tree, msgbox):
+    termo = termo.strip().lower()
+    if not termo:
+        msgbox.config(text="Digite algo para buscar.", bootstyle="warning")
+        return
+
+    encontrados = [
+        livro for livro in biblioteca
+        if termo in livro.get("titulo", "").lower()
+        or termo in livro.get("autor", "").lower()
+    ]
+
+    for item in tree.get_children():
+        tree.delete(item)
+
+    if not encontrados:
+        msgbox.config(text="Nenhum livro encontrado.", bootstyle="danger")
+        return
+
+    for livro in encontrados:
+        status, icone = obter_status(livro)
+        tree.insert("", "end", values=(
+            icone,
+            livro["titulo"],
+            livro["autor"],
+            status,
+            livro.get("data_cadastro", "-"),
+            livro.get("data_emprestimo", "-") or "-",
+            livro.get("data_devolucao", "-") or "-",
+            livro.get("data_perda", "-") or "-"
+        ))
+
+    msgbox.config(text=f"{len(encontrados)} resultado(s).", bootstyle="info")
+
     # ============================================================
 #   SEÇÃO 3 — THIAGO
 #   Lógica principal: cadastro, empréstimo, devolução, exclusão,
