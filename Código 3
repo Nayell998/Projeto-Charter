@@ -1,0 +1,226 @@
+import os
+import json
+from datetime import datetime
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from tkinter import messagebox
+
+# --- CONFIGURAÇÕES ---
+ARQUIVO = "biblioteca.json"
+LOG_ARQUIVO = "log.txt"
+biblioteca = []
+
+
+# --- FUNÇÃO DE LOG ---
+def registrar_log(acao, tipo="INFO"):
+    try:
+        with open(LOG_ARQUIVO, "a", encoding="utf-8") as log:
+            data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            log.write(f"[{data_hora}] [{tipo}] {acao}\n")
+    except:
+        pass
+
+
+# --- CARREGAR E SALVAR ---
+def carregar_dados():
+    global biblioteca
+    if os.path.exists(ARQUIVO):
+        with open(ARQUIVO, "r", encoding="utf-8") as f:
+            biblioteca = json.load(f)
+    else:
+        biblioteca = []
+
+
+def salvar_dados():
+    with open(ARQUIVO, "w", encoding="utf-8") as f:
+        json.dump(biblioteca, f, ensure_ascii=False, indent=4)
+
+
+# --- FUNÇÕES ---
+def cadastrar_livro(titulo, autor, msgbox, tree):
+    if not titulo.strip() or not autor.strip():
+        msgbox.config(text="Preencha todos os campos!", bootstyle="danger")
+        return
+    data = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    biblioteca.append({
+        "titulo": titulo,
+        "autor": autor,
+        "emprestado": False,
+        "quem": None,
+        "data_cadastro": data,
+        "data_emprestimo": None,
+        "data_devolucao": None
+    })
+    salvar_dados()
+    listar_livros(tree)
+    registrar_log(f"Livro cadastrado: {titulo} ({autor})")
+    msgbox.config(text=f"Livro '{titulo}' cadastrado!", bootstyle="success")
+
+
+def emprestar_livro(titulo, nome, msgbox, tree):
+    for livro in biblioteca:
+        if livro["titulo"].lower() == titulo.lower() and not livro["emprestado"]:
+            livro["emprestado"] = True
+            livro["quem"] = nome
+            livro["data_emprestimo"] = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            salvar_dados()
+            listar_livros(tree)
+            registrar_log(f"Livro emprestado: {titulo} → {nome}")
+            msgbox.config(text=f"'{titulo}' emprestado para {nome}.", bootstyle="success")
+            return
+    msgbox.config(text="Livro não encontrado ou já emprestado.", bootstyle="warning")
+
+
+def devolver_livro(titulo, msgbox, tree):
+    for livro in biblioteca:
+        if livro["titulo"].lower() == titulo.lower() and livro["emprestado"]:
+            livro["emprestado"] = False
+            livro["data_devolucao"] = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            registrar_log(f"Livro devolvido: {titulo}")
+            livro["quem"] = None
+            salvar_dados()
+            listar_livros(tree)
+            msgbox.config(text=f"Livro '{titulo}' devolvido!", bootstyle="success")
+            return
+    msgbox.config(text="Livro não encontrado ou não emprestado.", bootstyle="warning")
+
+
+def deletar_livro(titulo, msgbox, tree):
+    if not titulo.strip():
+        msgbox.config(text="Informe o título para exclusão.", bootstyle="danger")
+        return
+
+    for livro in biblioteca:
+        if livro["titulo"].lower() == titulo.lower():
+            resp = messagebox.askyesno("Excluir Livro", f"Tem certeza que deseja excluir '{titulo}'?")
+            if resp:
+                biblioteca.remove(livro)
+                salvar_dados()
+                listar_livros(tree)
+                registrar_log(f"Livro excluído: {titulo}")
+                msgbox.config(text=f"Livro '{titulo}' removido.", bootstyle="success")
+            return
+    msgbox.config(text="Livro não encontrado.", bootstyle="warning")
+
+
+def buscar_livro(termo, tree, msgbox):
+    termo = termo.lower().strip()
+    for item in tree.get_children():
+        tree.delete(item)
+
+    encontrados = [livro for livro in biblioteca if termo in livro["titulo"].lower() or termo in livro["autor"].lower()]
+    if not encontrados:
+        msgbox.config(text="Nenhum livro encontrado.", bootstyle="warning")
+        return
+
+    for livro in encontrados:
+        status, icone = obter_status(livro)
+        tree.insert("", "end", values=(icone, livro["titulo"], livro["autor"], status,
+                                       livro["data_cadastro"], livro["data_emprestimo"], livro["data_devolucao"]))
+    msgbox.config(text=f"{len(encontrados)} livro(s) encontrado(s).", bootstyle="info")
+
+
+def obter_status(livro):
+    if livro["emprestado"]:
+        return f"Emprestado para {livro['quem']}", 
+    elif livro["data_devolucao"]:
+        return "Devolvido", 
+    else:
+        return "Disponível", 
+
+
+def listar_livros(tree):
+    for item in tree.get_children():
+        tree.delete(item)
+    for livro in biblioteca:
+        status, icone = obter_status(livro)
+        tree.insert("", "end", values=(icone, livro["titulo"], livro["autor"], status,
+                                       livro["data_cadastro"], livro["data_emprestimo"], livro["data_devolucao"]))
+
+
+def mostrar_log():
+    janela_log = ttk.Toplevel(title="Log do Sistema")
+    janela_log.geometry("800x500")
+
+    texto = ttk.Text(janela_log, wrap="word")
+    texto.pack(fill="both", expand=True, padx=10, pady=10)
+
+    if os.path.exists(LOG_ARQUIVO):
+        with open(LOG_ARQUIVO, "r", encoding="utf-8") as f:
+            texto.insert("1.0", f.read())
+    else:
+        texto.insert("1.0", "Nenhum log disponível.")
+    texto.configure(state="disabled")
+
+    ttk.Button(janela_log, text="Fechar", bootstyle=DANGER, command=janela_log.destroy).pack(pady=5)
+
+
+# --- INTERFACE ---
+def interface():
+    carregar_dados()
+    app = ttk.Window(themename="cyborg")
+    app.title("Biblioteca Digital")
+    app.geometry("1200x720")
+
+    # Cabeçalho
+    header = ttk.Frame(app)
+    header.pack(pady=20)
+    ttk.Label(header, text="Sistema de Biblioteca", font=("Segoe UI", 24, "bold")).pack()
+
+    # Mensagem
+    msgbox = ttk.Label(app, text="", font=("Segoe UI", 10))
+    msgbox.pack(pady=5)
+
+    # Inputs centrais
+    center = ttk.Frame(app)
+    center.pack(pady=10)
+
+    titulo_var = ttk.StringVar()
+    autor_var = ttk.StringVar()
+    nome_var = ttk.StringVar()
+    busca_var = ttk.StringVar()
+
+    ttk.Label(center, text="Título:").grid(row=0, column=0, padx=5, pady=5)
+    ttk.Entry(center, textvariable=titulo_var, width=40).grid(row=0, column=1, padx=5)
+
+    ttk.Label(center, text="Autor:").grid(row=0, column=2, padx=5)
+    ttk.Entry(center, textvariable=autor_var, width=40).grid(row=0, column=3, padx=5)
+
+    ttk.Label(center, text="Quem pega:").grid(row=1, column=0, padx=5)
+    ttk.Entry(center, textvariable=nome_var, width=40).grid(row=1, column=1, padx=5)
+
+    ttk.Label(center, text="Buscar:").grid(row=1, column=2, padx=5)
+    ttk.Entry(center, textvariable=busca_var, width=40).grid(row=1, column=3, padx=5)
+
+    # Frame de botões centralizados
+    botoes = ttk.Frame(app)
+    botoes.pack(pady=15)
+
+    ttk.Button(botoes, text="Cadastrar", bootstyle=SUCCESS,
+               command=lambda: cadastrar_livro(titulo_var.get(), autor_var.get(), msgbox, tree)).grid(row=0, column=0, padx=10)
+    ttk.Button(botoes, text="Emprestar", bootstyle=PRIMARY,
+               command=lambda: emprestar_livro(titulo_var.get(), nome_var.get(), msgbox, tree)).grid(row=0, column=1, padx=10)
+    ttk.Button(botoes, text="Devolver", bootstyle=INFO,
+               command=lambda: devolver_livro(titulo_var.get(), msgbox, tree)).grid(row=0, column=2, padx=10)
+    ttk.Button(botoes, text="Excluir", bootstyle=DANGER,
+               command=lambda: deletar_livro(titulo_var.get(), msgbox, tree)).grid(row=0, column=3, padx=10)
+    ttk.Button(botoes, text="Buscar", bootstyle=SECONDARY,
+               command=lambda: buscar_livro(busca_var.get(), tree, msgbox)).grid(row=0, column=4, padx=10)
+    ttk.Button(botoes, text="Ver Log", bootstyle=WARNING,
+               command=mostrar_log).grid(row=0, column=5, padx=10)
+
+    # Tabela
+    columns = ("", "Título", "Autor", "Status", "Cadastrado", "Emprestado em", "Devolvido em")
+    tree = ttk.Treeview(app, columns=columns, show="headings", bootstyle=INFO)
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, width=150, anchor="center")
+    tree.pack(padx=15, pady=10, fill="both", expand=True)
+
+    listar_livros(tree)
+    app.mainloop()
+
+
+# --- EXECUÇÃO ---
+if __name__ == "__main__":
+    interface()
