@@ -1,0 +1,192 @@
+RELATÓRIO FINAL — Projeto “Biblioteca Solidária”
+
+1. Introdução
+
+Este relatório apresenta o desenvolvimento do sistema Biblioteca Solidária, criado ao longo das seis aulas da disciplina de Projeto Integrador. O objetivo foi desenvolver uma solução simples para registrar empréstimos, devoluções e controle de livros, reduzindo perdas e garantindo maior organização do acervo.
+
+
+---
+
+2. Objetivo do Projeto
+
+O sistema foi projetado para:
+
+Registrar empréstimos e devoluções;
+
+Controlar o status dos livros (emprestado, disponível, perdido);
+
+Manter registros históricos através de arquivos de log;
+
+Minimizar erros humanos e melhorar o controle interno.
+
+
+
+---
+
+3. Equipe e Responsabilidades
+
+Francisco F.
+
+Criação do Project Charter;
+
+Construção das Personas;
+
+Desenvolvimento inicial do Backlog;
+
+Atualização do Change Log;
+
+Testes e correção de bugs;
+
+Apoio na documentação final.
+
+
+Fábio
+
+Criação e manutenção do repositório GitHub;
+
+Elaboração das User Stories;
+
+Preenchimento do Quadro Kanban;
+
+Desenvolvimento da Demo Parcial e ajustes no MVP;
+
+Preparação da Demo Final.
+
+
+Thiago de S.
+
+Estruturação do Quadro Kanban;
+
+Organização das tarefas no fluxo ágil;
+
+Suporte na preparação do repositório final.
+
+
+Edimar
+
+Revisão dos arquivos finais;
+
+Organização do material entregue na Aula 6;
+
+Verificação de consistência da documentação.
+
+
+
+---
+
+4. Metodologia
+
+O projeto foi guiado por práticas ágeis, incluindo:
+
+Planejamento do escopo (Project Charter);
+
+Modelagem de usuários (Personas);
+
+Definição de requisitos (User Stories);
+
+Organização em Kanban;
+
+Desenvolvimento incremental (demos e MVP).
+
+
+
+---
+
+5. Desenvolvimento por Etapas
+
+Aula 1 — 26/09
+
+Project Charter concluído (Francisco).
+
+Repositório GitHub criado (Fábio).
+
+
+Aula 2 — 10/10
+
+Personas definidas (Francisco).
+
+User Stories concluídas (Fábio).
+
+Quadro Kanban criado (Thiago).
+
+
+Aula 3 — 24/10
+
+Backlog estruturado (Francisco).
+
+Kanban preenchido (Fábio).
+
+
+Aula 4 — 07/11
+
+Demo Parcial apresentada.
+
+Início do Change Log (Francisco).
+
+
+Aula 5 — 21/11
+
+Correções no MVP e resolução de bugs (Francisco e Fábio).
+
+
+Aula 6 — 05/12
+
+Finalização do repositório (Thiago e Edimar).
+
+Entrega do relatório técnico.
+
+Apresentação da Demo Final (Fábio).
+
+
+
+---
+
+6. Funcionalidades Implementadas
+
+Registro de empréstimos e devoluções;
+
+Registro de livros perdidos com data e responsável;
+
+Sistema de logs com registro horário;
+
+Organização simples em arquivo .txt;
+
+Interface funcional e direta;
+
+Código revisado e refatorado conforme necessidade;
+
+Kanban atualizado acompanhando progresso.
+
+
+
+---
+
+7. Resultados Obtidos
+
+O sistema atendeu aos objetivos iniciais e demonstrou eficácia no controle de empréstimos. O desenvolvimento foi organizado de maneira ágil, com entregas parciais (demos) e ajustes contínuos, o que resultou em um MVP funcional e consistente.
+
+
+---
+
+8. Conclusão
+
+O projeto Biblioteca Solidária proporcionou experiência prática no desenvolvimento de software, passando por todo o ciclo: definição, planejamento, criação, testes, documentação e entrega final. A equipe colaborou para produzir uma solução simples e útil para gerenciamento de livros.
+
+
+---
+
+9. Repositório Final
+
+📂 Repositório Oficial do Projeto:
+(Coloque aqui o link do GitHub quando você me enviar)
+Exemplo: https://github.com/usuario/biblioteca-solidaria
+
+Se quiser, posso: ✅ revisar o repositório
+✅ organizar README
+✅ colocar instruções de execução
+É só mandar o link!
+
+
+---
+
+Se quiser, gero PDF, versão mais formal, ou mais curta.
