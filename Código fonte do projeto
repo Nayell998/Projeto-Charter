@@ -303,29 +303,37 @@ def ver_livros_perdidos(tree, msgbox):
 
     msgbox.config(text=f"{len(perdidos)} livro(s) perdido(s).", bootstyle="warning")
 
+# ============================================================
+#   SEÇÃO 4 — EDIMAR
+#   Atualizar dados, validar funcionamento, exibir logs
+# ============================================================
 
 
+# --- ATUALIZAR DADOS ---
+def atualizar_dados(tree, msgbox):
+    carregar_dados()
+    remover_duplicados()
+    listar_livros(tree)
+    msgbox.config(text="🔄 Dados atualizados!", bootstyle="info")
 
 
+# --- MOSTRAR LOG ---
+def mostrar_log():
+    janela = ttk.Toplevel(title="📜 Log do Sistema")
+    janela.geometry("800x500")
 
+    texto = ttk.Text(janela, wrap="word")
+    texto.pack(fill="both", expand=True, padx=10, pady=10)
 
+    if os.path.exists(LOG_ARQUIVO):
+        with open(LOG_ARQUIVO, "r", encoding="utf-8") as f:
+            texto.insert("1.0", f.read())
+    else:
+        texto.insert("1.0", "Nenhum log disponível.")
 
+    texto.configure(state="disabled")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    ttk.Button(janela, text="Fechar", bootstyle=DANGER, command=janela.destroy).pack(pady=5)
 
 # ============================================================
 #   SISTEMA — Interface final
