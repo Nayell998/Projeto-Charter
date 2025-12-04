@@ -25,3 +25,70 @@ def salvar_dados():
         registrar_log("Dados salvos com sucesso.")
     except Exception as e:
         registrar_log(f"Erro ao salvar dados: {e}")
+parte do Thiago 
+def cadastrar_livro(titulo, autor, msgbox):
+    titulo = titulo.strip()
+    autor = autor.strip()
+
+    if not titulo or not autor:
+        msgbox.config(text="Preencha todos os campos!", bootstyle="danger")
+        return
+
+    biblioteca.append({
+        "titulo": titulo,
+        "autor": autor,
+        "emprestado": False,
+        "quem": None
+    })
+
+    salvar_dados()
+    registrar_log(f"Livro cadastrado: {titulo} ({autor})")
+    msgbox.config(text=f"Livro '{titulo}' cadastrado!", bootstyle="success")
+
+
+def emprestar_livro(titulo, nome, msgbox):
+    titulo = titulo.strip()
+    nome = nome.strip()
+
+    if not titulo or not nome:
+        msgbox.config(text="Título e nome são obrigatórios!", bootstyle="danger")
+        return
+
+    for livro in biblioteca:
+        if livro["titulo"].lower() == titulo.lower() and not livro["emprestado"]:
+            livro["emprestado"] = True
+            livro["quem"] = nome
+            salvar_dados()
+            registrar_log(f"Livro emprestado: {titulo} → {nome}")
+            msgbox.config(text=f"Livro '{titulo}' emprestado para {nome}.", bootstyle="success")
+            return
+
+    msgbox.config(text="Livro não encontrado ou já emprestado.", bootstyle="warning")
+
+
+def devolver_livro(titulo, msgbox):
+    titulo = titulo.strip()
+
+    if not titulo:
+        msgbox.config(text="Informe o título!", bootstyle="danger")
+        return
+
+    for livro in biblioteca:
+        if livro["titulo"].lower() == titulo.lower() and livro["emprestado"]:
+            livro["emprestado"] = False
+            livro["quem"] = None
+            salvar_dados()
+            registrar_log(f"Livro devolvido: {titulo}")
+            msgbox.config(text=f"Livro '{titulo}' devolvido!", bootstyle="success")
+            return
+
+    msgbox.config(text="Livro não encontrado ou não emprestado.", bootstyle="warning")
+
+
+def listar_livros(tree):
+    for item in tree.get_children():
+        tree.delete(item)
+
+    for livro in biblioteca:
+        status = f"Emprestado para {livro['quem']}" if livro["emprestado"] else "Disponível"
+        tree.insert("", "end", values=(livro["titulo"], livro["autor"], status))
