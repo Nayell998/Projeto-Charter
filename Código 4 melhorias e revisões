@@ -101,3 +101,39 @@ def devolver_livro():
     atualizar_lista()
     ttk.dialogs.Messagebox.ok(f"Livro '{livro['titulo']}' devolvido com sucesso!", "Devolução")
     registrar_log(f"Livro devolvido: '{livro['titulo']}'.")
+
+ PARTE FÁBIO (Buscar / Lista total / Ver log) 
+def buscar_livro():
+    termo = ttk.dialogs.Querybox.get_string("Digite o título ou autor:", "Buscar Livro")
+    if not termo:
+        return
+    termo = termo.lower()
+
+    encontrados = [
+        livro for livro in biblioteca
+        if termo in livro["titulo"].lower() or termo in livro["autor"].lower()
+    ]
+
+    lista.delete(*lista.get_children())
+    for livro in encontrados:
+        status = f"Emprestado para {livro['quem']}" if livro["emprestado"] else "Disponível"
+        lista.insert("", "end", values=(livro["titulo"], livro["autor"], status))
+
+    registrar_log(f"Busca realizada: termo '{termo}' ({len(encontrados)} resultado(s)).")
+
+def mostrar_todos():
+    atualizar_lista()
+    registrar_log("Listagem completa exibida.")
+
+def abrir_log():
+    if os.path.exists(LOG_ARQUIVO):
+        with open(LOG_ARQUIVO, "r", encoding="utf-8") as f:
+            conteudo = f.read()
+
+        log_window = ttk.Toplevel(title=" Registro de Log", size=(600, 400))
+        text = ttk.ScrolledText(log_window, wrap="word")
+        text.insert("1.0", conteudo)
+        text.configure(state="disabled")
+        text.pack(fill="both", expand=True, padx=10, pady=10)
+    else:
+        ttk.dialogs.Messagebox.info("Nenhum log encontrado.", "Log")
