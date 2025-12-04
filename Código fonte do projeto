@@ -335,7 +335,7 @@ def interface():
     carregar_dados()
 
     app = ttk.Window(themename="cyborg")
-    app.title("📚 Biblioteca Solidária")
+    app.title(" Biblioteca Solidária")
     app.geometry("1300x750")
 
     ttk.Label(app, text=" Sistema de Biblioteca", font=("Segoe UI", 24, "bold")).pack(pady=20)
