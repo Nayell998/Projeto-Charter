@@ -1,1 +1,27 @@
+minha parte Fernando 
 
+ def carregar_dados():
+    global biblioteca
+    if os.path.exists(ARQUIVO):
+        try:
+            with open(ARQUIVO, "r", encoding="utf-8") as f:
+                dados = json.load(f)
+                if isinstance(dados, list):
+                    biblioteca = dados
+                else:
+                    biblioteca = []
+            registrar_log("Dados carregados com sucesso.")
+        except Exception as e:
+            registrar_log(f"Erro ao carregar dados: {e}")
+            biblioteca = []
+    else:
+        registrar_log("Nenhum arquivo encontrado. Iniciando novo.")
+
+
+def salvar_dados():
+    try:
+        with open(ARQUIVO, "w", encoding="utf-8") as f:
+            json.dump(biblioteca, f, ensure_ascii=False, indent=4)
+        registrar_log("Dados salvos com sucesso.")
+    except Exception as e:
+        registrar_log(f"Erro ao salvar dados: {e}")
