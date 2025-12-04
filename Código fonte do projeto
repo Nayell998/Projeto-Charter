@@ -302,3 +302,98 @@ def ver_livros_perdidos(tree, msgbox):
         ))
 
     msgbox.config(text=f"{len(perdidos)} livro(s) perdido(s).", bootstyle="warning")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ============================================================
+#   SISTEMA — Interface final
+# ============================================================
+
+def interface():
+    carregar_dados()
+
+    app = ttk.Window(themename="cyborg")
+    app.title("📚 Biblioteca Solidária")
+    app.geometry("1300x750")
+
+    ttk.Label(app, text=" Sistema de Biblioteca", font=("Segoe UI", 24, "bold")).pack(pady=20)
+
+    msgbox = ttk.Label(app, text="", font=("Segoe UI", 10))
+    msgbox.pack(pady=5)
+
+    frame_campos = ttk.Frame(app)
+    frame_campos.pack(pady=10)
+
+    titulo_var = ttk.StringVar()
+    autor_var = ttk.StringVar()
+    nome_var = ttk.StringVar()
+    busca_var = ttk.StringVar()
+
+    ttk.Label(frame_campos, text="Título:").grid(row=0, column=0, padx=5, pady=5)
+    ttk.Entry(frame_campos, textvariable=titulo_var, width=40).grid(row=0, column=1, padx=5)
+    ttk.Label(frame_campos, text="Autor:").grid(row=0, column=2, padx=5)
+    ttk.Entry(frame_campos, textvariable=autor_var, width=40).grid(row=0, column=3, padx=5)
+
+    ttk.Label(frame_campos, text="Quem pega/perde:").grid(row=1, column=0, padx=5)
+    ttk.Entry(frame_campos, textvariable=nome_var, width=40).grid(row=1, column=1, padx=5)
+
+    ttk.Label(frame_campos, text="Buscar:").grid(row=1, column=2, padx=5)
+    ttk.Entry(frame_campos, textvariable=busca_var, width=40).grid(row=1, column=3, padx=5)
+
+    frame_botoes = ttk.Frame(app)
+    frame_botoes.pack(pady=15)
+
+    columns = ("", "Título", "Autor", "Status", "Cadastrado", "Emprestado em", "Devolvido em", "Perdido em")
+    tree = ttk.Treeview(app, columns=columns, show="headings", bootstyle=INFO)
+
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, width=150, anchor="center")
+
+    tree.pack(padx=15, pady=10, fill="both", expand=True)
+
+    botoes = [
+        ("📗 Cadastrar", SUCCESS, lambda: cadastrar_livro(titulo_var.get(), autor_var.get(), msgbox, tree)),
+        ("📘 Emprestar", PRIMARY, lambda: emprestar_livro(titulo_var.get(), nome_var.get(), msgbox, tree)),
+        ("📕 Devolver", INFO, lambda: devolver_livro(titulo_var.get(), msgbox, tree)),
+        ("📕 Marcar Perdido", DANGER, lambda: registrar_livro_perdido(titulo_var.get(), nome_var.get(), msgbox, tree)),
+        ("🧾 Ver Perdidos", WARNING, lambda: ver_livros_perdidos(tree, msgbox)),
+        ("🗑️ Excluir", DANGER, lambda: deletar_livro(titulo_var.get(), msgbox, tree)),
+        ("🔍 Buscar", SECONDARY, lambda: buscar_livro(busca_var.get(), tree, msgbox)),
+        ("📜 Log", WARNING, mostrar_log),
+        ("🔄 Atualizar", SUCCESS, lambda: atualizar_dados(tree, msgbox)),
+    ]
+
+    for i, (txt, style, cmd) in enumerate(botoes):
+        ttk.Button(frame_botoes, text=txt, bootstyle=style, command=cmd).grid(row=0, column=i, padx=8, pady=5)
+
+    listar_livros(tree)
+    app.mainloop()
+
+
+if __name__ == "__main__":
+    interface()
+
+
