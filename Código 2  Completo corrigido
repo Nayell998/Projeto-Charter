@@ -1,0 +1,252 @@
+import json
+import os
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from datetime import datetime
+import tkinter as tk
+
+
+CONFIGURAÇÕES E VARIÁVEIS
+
+
+ARQUIVO = "biblioteca.json"
+LOG_ARQUIVO = "logs_biblioteca.txt"
+biblioteca = []
+
+
+
+FUNÇÃO DO FERNANDO — CARREGAR E SALVAR
+
+
+def registrar_log(mensagem):
+    with open(LOG_ARQUIVO, "a", encoding="utf-8") as log:
+        log.write(f"{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - {mensagem}\n")
+
+
+def carregar_dados():
+    """Carrega os dados da biblioteca de um arquivo JSON."""
+    global biblioteca
+    if os.path.exists(ARQUIVO):
+        try:
+            with open(ARQUIVO, "r", encoding="utf-8") as f:
+                dados = json.load(f)
+                biblioteca = dados if isinstance(dados, list) else []
+            registrar_log("Dados carregados com sucesso.")
+        except Exception as e:
+            registrar_log(f"Erro ao carregar dados: {e}")
+            biblioteca = []
+    else:
+        registrar_log("Arquivo não encontrado. Iniciando novo cadastro.")
+
+
+def salvar_dados():
+    """Salva os dados atuais da biblioteca em um arquivo JSON."""
+    try:
+        with open(ARQUIVO, "w", encoding="utf-8") as f:
+            json.dump(biblioteca, f, indent=4, ensure_ascii=False)
+        registrar_log("Dados salvos com sucesso.")
+    except Exception as e:
+        registrar_log(f"Erro ao salvar dados: {e}")
+
+
+
+FUNÇÕES DO THIAGO — CADASTRAR, EMPRESTAR, DEVOLVER E LISTAR
+
+
+def cadastrar_livro(titulo, autor, msgbox):
+    if not titulo or not autor:
+        msgbox.config(text="O título e autor são obrigatórios!", bootstyle="danger")
+        return
+
+    livro = {
+        "titulo": titulo.strip(),
+        "autor": autor.strip(),
+        "emprestado": False,
+        "emprestado_para": "",
+        "data_emprestimo": "",
+        "data_devolucao": ""
+    }
+
+    biblioteca.append(livro)
+    salvar_dados()
+    registrar_log(f"Livro cadastrado: {titulo}")
+
+    msgbox.config(text="Livro cadastrado com sucesso!", bootstyle="success")
+
+
+def emprestar_livro(titulo, nome, msgbox):
+    titulo, nome = titulo.strip(), nome.strip()
+
+    if not titulo or not nome:
+        msgbox.config(text="Título e nome são obrigatórios!", bootstyle="danger")
+        return
+
+    for livro in biblioteca:
+        if livro["titulo"].lower() == titulo.lower():
+            if livro["emprestado"]:
+                msgbox.config(text="O livro já está emprestado!", bootstyle="danger")
+                return
+
+            livro["emprestado"] = True
+            livro["emprestado_para"] = nome
+            livro["data_emprestimo"] = datetime.now().strftime("%d/%m/%Y")
+
+            salvar_dados()
+            registrar_log(f"Livro emprestado: {titulo} → {nome}")
+
+            msgbox.config(text="Livro emprestado com sucesso!", bootstyle="success")
+            return
+
+    msgbox.config(text="Livro não encontrado!", bootstyle="danger")
+
+
+def devolver_livro(titulo, msgbox):
+    titulo = titulo.strip()
+
+    if not titulo:
+        msgbox.config(text="Informe o título!", bootstyle="danger")
+        return
+
+    for livro in biblioteca:
+        if livro["titulo"].lower() == titulo.lower():
+            if not livro["emprestado"]:
+                msgbox.config(text="O livro já está disponível!", bootstyle="danger")
+                return
+
+            livro["emprestado"] = False
+            livro["emprestado_para"] = ""
+            livro["data_devolucao"] = datetime.now().strftime("%d/%m/%Y")
+
+            salvar_dados()
+            registrar_log(f"Livro devolvido: {titulo}")
+
+            msgbox.config(text="Livro devolvido com sucesso!", bootstyle="success")
+            return
+
+    msgbox.config(text="Livro não encontrado!", bootstyle="danger"
+
+FUNÇÃO DO FÁBIO — BUSCAR LIVROS
+
+
+def buscar_livro(termo, tabela):
+    termo = termo.strip().lower()
+    tabela.delete(*tabela.get_children())
+
+    for livro in biblioteca:
+        status = "Emprestado" if livro["emprestado"] else "Disponível"
+
+        if (termo in livro["titulo"].lower()
+            or termo in livro["autor"].lower()
+            or termo == status.lower()):
+            tabela.insert("", "end", values=(livro["titulo"], livro["autor"], status))
+
+
+
+FUNÇÃO DO EDIMAR — INTERFACE E LOG VISUAL
+
+
+def listar_livros(tabela):
+    tabela.delete(*tabela.get_children())
+
+    for livro in biblioteca:
+        status = "Emprestado" if livro["emprestado"] else "Disponível"
+        tabela.insert("", "end", values=(livro["titulo"], livro["autor"], status))
+
+
+def abrir_log():
+    janela = ttk.Toplevel()
+    janela.title("Logs do Sistema")
+    janela.geometry("600x500")
+
+    texto = tk.Text(janela, wrap="word", height=25)
+    texto.pack(fill="both", expand=True)
+
+    if os.path.exists(LOG_ARQUIVO):
+        with open(LOG_ARQUIVO, "r", encoding="utf-8") as log:
+            texto.insert("1.0", log.read())
+    else:
+        texto.insert("1.0", "Nenhum log registrado.")
+
+
+
+INTERFACE GRÁFICA (corrigida)
+
+
+carregar_dados()
+
+app = ttk.Window(themename="superhero")
+app.title("Sistema de Biblioteca")
+app.geometry("900x600")
+
+# CAMPOS SEPARADOS POR FUNÇÃO
+titulo_cadastro_var = ttk.StringVar()
+autor_cadastro_var = ttk.StringVar()
+
+titulo_emprestimo_var = ttk.StringVar()
+nome_emprestimo_var = ttk.StringVar()
+
+titulo_devolver_var = ttk.StringVar()
+
+buscar_var = ttk.StringVar()
+
+# TABELA
+colunas = ("Título", "Autor", "Status")
+tabela = ttk.Treeview(app, columns=colunas, show="headings", height=10)
+
+for col in colunas:
+    tabela.heading(col, text=col)
+    tabela.column(col, width=200)
+
+tabela.pack(pady=10)
+
+# CAMPOS E BOTÕES (UI)
+frame = ttk.Frame(app)
+frame.pack(pady=10)
+
+ttk.Label(frame, text="Título:").grid(row=0, column=0)
+ttk.Entry(frame, textvariable=titulo_cadastro_var).grid(row=0, column=1)
+
+ttk.Label(frame, text="Autor:").grid(row=1, column=0)
+ttk.Entry(frame, textvariable=autor_cadastro_var).grid(row=1, column=1)
+
+msgbox = ttk.Label(app, text="", font=("Arial", 12))
+msgbox.pack()
+
+ttk.Button(frame, text="Cadastrar", bootstyle="success",
+           command=lambda: cadastrar_livro(titulo_cadastro_var.get(), autor_cadastro_var.get(), msgbox)
+           ).grid(row=2, column=1, pady=5)
+
+ttk.Label(frame, text="Título para empréstimo:").grid(row=3, column=0)
+ttk.Entry(frame, textvariable=titulo_emprestimo_var).grid(row=3, column=1)
+
+ttk.Label(frame, text="Nome da pessoa:").grid(row=4, column=0)
+ttk.Entry(frame, textvariable=nome_emprestimo_var).grid(row=4, column=1)
+
+ttk.Button(frame, text="Emprestar", bootstyle="warning",
+           command=lambda: emprestar_livro(titulo_emprestimo_var.get(), nome_emprestimo_var.get(), msgbox)
+           ).grid(row=5, column=1, pady=5)
+
+ttk.Label(frame, text="Título para devolução:").grid(row=6, column=0)
+ttk.Entry(frame, textvariable=titulo_devolver_var).grid(row=6, column=1)
+
+ttk.Button(frame, text="Devolver", bootstyle="info",
+           command=lambda: devolver_livro(titulo_devolver_var.get(), msgbox)
+           ).grid(row=7, column=1, pady=5)
+
+# BUSCA
+ttk.Label(app, text="Buscar livro:").pack()
+ttk.Entry(app, textvariable=buscar_var).pack()
+
+ttk.Button(app, text="Buscar", bootstyle="primary",
+           command=lambda: buscar_livro(buscar_var.get(), tabela)
+           ).pack(pady=5)
+
+ttk.Button(app, text="Listar Todos", bootstyle="secondary",
+           command=lambda: listar_livros(tabela)
+           ).pack(pady=5)
+
+ttk.Button(app, text="Abrir Logs", bootstyle="danger", command=abrir_log).pack(pady=10)
+
+listar_livros(tabela)
+
+app.mainloop()
