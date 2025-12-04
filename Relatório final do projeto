@@ -25,19 +25,17 @@ Minimizar erros humanos e melhorar o controle interno.
 
 3. Equipe e Responsabilidades
 
-Francisco F.
+Fernando 
 
-Criação do Project Charter;
-
-Construção das Personas;
+Estruturação do Quadro Kanban;
 
 Desenvolvimento inicial do Backlog;
 
-Atualização do Change Log;
+Preenchimento do Quadro Kanban;
 
 Testes e correção de bugs;
 
-Apoio na documentação final.
+Preparação da Demo Final.
 
 
 Fábio
@@ -46,16 +44,18 @@ Criação e manutenção do repositório GitHub;
 
 Elaboração das User Stories;
 
-Preenchimento do Quadro Kanban;
+Atualização do Change Log;
 
 Desenvolvimento da Demo Parcial e ajustes no MVP;
 
-Preparação da Demo Final.
+Apoio na documentação final.
 
 
-Thiago de S.
+Thiago
 
-Estruturação do Quadro Kanban;
+Criação do Project Charter;
+
+Construção das Personas;
 
 Organização das tarefas no fluxo ágil;
 
@@ -96,46 +96,48 @@ Desenvolvimento incremental (demos e MVP).
 
 Aula 1 — 26/09
 
-Project Charter concluído (Francisco).
+Project Charter concluído (Thiago).
 
-Repositório GitHub criado (Fábio).
+Repositório GitHub criado (Fernando).
 
 
 Aula 2 — 10/10
 
-Personas definidas (Francisco).
+Personas definidas (Thiago).
 
 User Stories concluídas (Fábio).
 
-Quadro Kanban criado (Thiago).
+Quadro Kanban criado (Fernando).
 
 
 Aula 3 — 24/10
 
-Backlog estruturado (Francisco).
+Backlog estruturado (Fernando).
 
-Kanban preenchido (Fábio).
+Kanban preenchido (Fernando).
 
 
 Aula 4 — 07/11
 
 Demo Parcial apresentada.
 
-Início do Change Log (Francisco).
+Início do Change Log (Fábio).
 
 
 Aula 5 — 21/11
 
-Correções no MVP e resolução de bugs (Francisco e Fábio).
+Correções no MVP e resolução de bugs (Fernando e Fábio).
 
 
 Aula 6 — 05/12
 
 Finalização do repositório (Thiago e Edimar).
 
-Entrega do relatório técnico.
+Documentação final  e necessária ( Edimar).
 
-Apresentação da Demo Final (Fábio).
+Entrega do relatório técnico. (Fabio).
+
+Apresentação da Demo Final (Fernando e Fábio).
 
 
 
@@ -145,17 +147,17 @@ Apresentação da Demo Final (Fábio).
 
 Registro de empréstimos e devoluções;
 
-Registro de livros perdidos com data e responsável;
+Registro de livros perdidos com data e responsável; para que não perdemos nenhuma informação 
 
-Sistema de logs com registro horário;
+Sistema de logs com registro horário; para guardar informações de seus recebimentos e e perdimentos por usuários
 
-Organização simples em arquivo .txt;
+Organização simples em arquivo .txt, só que a gora é em JSON para melhorar o salvamento de dados 
 
-Interface funcional e direta;
+Interface funcional e direta; bem interativa e de fácil compreensão 
 
-Código revisado e refatorado conforme necessidade;
+Código revisado e refatorado conforme necessidade; de todos para possíveis melhorias
 
-Kanban atualizado acompanhando progresso.
+Kanban atualizado acompanhando progresso. De ambos em suas obrigações 
 
 
 
@@ -171,4 +173,3 @@ O sistema atendeu aos objetivos iniciais e demonstrou eficácia no controle de e
 8. Conclusão
 
 O projeto Biblioteca Solidária proporcionou experiência prática no desenvolvimento de software, passando por todo o ciclo: definição, planejamento, criação, testes, documentação e entrega final. A equipe colaborou para produzir uma solução simples e útil para gerenciamento de livros.
-
