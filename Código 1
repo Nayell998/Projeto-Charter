@@ -112,6 +112,27 @@ def buscar_livro(termo, tree, msgbox):
     else:
         msgbox.config(text="Nenhum livro encontrado.", bootstyle="warning")
 
+def buscar_livro(termo, tree, msgbox):
+    termo = termo.strip().lower()
+
+    resultados = [
+        livro for livro in biblioteca
+        if termo in livro["titulo"].lower()
+        or termo in livro["autor"].lower()
+        or termo in ("emprestado" if livro["emprestado"] else "disponível")
+    ]
+
+    for item in tree.get_children():
+        tree.delete(item)
+
+    if resultados:
+        for livro in resultados:
+            status = "Emprestado para " + livro["quem"] if livro["emprestado"] else "Disponível"
+            tree.insert("", "end", values=(livro["titulo"], livro["autor"], status))
+
+        msgbox.config(text=f"{len(resultados)} livro(s) encontrado(s).", bootstyle="info")
+    else:
+        msgbox.config(text="Nenhum livro encontrado.", bootstyle="warning")
 
 # --- FUNÇÃO DE VISUALIZAÇÃO DO LOG ---
 def mostrar_log():
@@ -131,6 +152,14 @@ def mostrar_log():
 
     texto.configure(state="disabled")
     ttk.Button(janela_log, text="Fechar", bootstyle=DANGER, command=janela_log.destroy).pack(pady=5)
+
+titulo_cadastro = ttk.StringVar()
+autor_cadastro = ttk.StringVar()
+
+titulo_emprestimo = ttk.StringVar()
+nome_emprestimo = ttk.StringVar()
+
+busca_var = ttk.StringVar()
 
 
 # --- INTERFACE GRÁFICA ---
