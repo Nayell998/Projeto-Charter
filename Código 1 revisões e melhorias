@@ -25,7 +25,8 @@ def salvar_dados():
         registrar_log("Dados salvos com sucesso.")
     except Exception as e:
         registrar_log(f"Erro ao salvar dados: {e}")
-parte do Thiago 
+parte do Thiago
+
 def cadastrar_livro(titulo, autor, msgbox):
     titulo = titulo.strip()
     autor = autor.strip()
