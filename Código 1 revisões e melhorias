@@ -85,7 +85,7 @@ def devolver_livro(titulo, msgbox):
 
     msgbox.config(text="Livro não encontrado ou não emprestado.", bootstyle="warning")
 
-
+parte de fabio
 def listar_livros(tree):
     for item in tree.get_children():
         tree.delete(item)
@@ -93,3 +93,50 @@ def listar_livros(tree):
     for livro in biblioteca:
         status = f"Emprestado para {livro['quem']}" if livro["emprestado"] else "Disponível"
         tree.insert("", "end", values=(livro["titulo"], livro["autor"], status))
+
+ def buscar_livro(termo, tree, msgbox):
+    termo = termo.strip().lower()
+
+    resultados = [
+        livro for livro in biblioteca
+        if termo in livro["titulo"].lower()
+        or termo in livro["autor"].lower()
+        or termo in ("emprestado" if livro["emprestado"] else "disponível")
+    ]
+
+    for item in tree.get_children():
+        tree.delete(item)
+
+    if resultados:
+        for livro in resultados:
+            status = "Emprestado para " + livro["quem"] if livro["emprestado"] else "Disponível"
+            tree.insert("", "end", values=(livro["titulo"], livro["autor"], status))
+
+        msgbox.config(text=f"{len(resultados)} livro(s) encontrado(s).", bootstyle="info")
+    else:
+        msgbox.config(text="Nenhum livro encontrado.", bootstyle="warning")
+
+parte de Edimar
+     def mostrar_log():
+    janela_log = ttk.Toplevel(title="Log do Sistema")
+    janela_log.geometry("600x400")
+
+    texto = tk.Text(janela_log, wrap="word")
+    texto.pack(padx=10, pady=10, fill="both", expand=True)
+
+    if os.path.exists(LOG_ARQUIVO):
+        with open(LOG_ARQUIVO, "r", encoding="utf-8") as f:
+            texto.insert("1.0", f.read())
+    else:
+        texto.insert("1.0", "Nenhum log disponível.")
+
+    texto.configure(state="disabled")
+
+    ttk.Button(janela_log, text="Fechar", bootstyle=DANGER, command=janela_log.destroy).pack(pady=5)
+[17:40, 03/12/2025] Nayell: titulo_cadastro = ttk.StringVar()
+autor_cadastro = ttk.StringVar()
+
+titulo_emprestimo = ttk.StringVar()
+nome_emprestimo = ttk.StringVar()
+
+busca_var = ttk.StringVar()
