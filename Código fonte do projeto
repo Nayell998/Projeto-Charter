@@ -314,12 +314,12 @@ def atualizar_dados(tree, msgbox):
     carregar_dados()
     remover_duplicados()
     listar_livros(tree)
-    msgbox.config(text="🔄 Dados atualizados!", bootstyle="info")
+    msgbox.config(text="Dados atualizados!", bootstyle="info")
 
 
 # --- MOSTRAR LOG ---
 def mostrar_log():
-    janela = ttk.Toplevel(title="📜 Log do Sistema")
+    janela = ttk.Toplevel(title="Log do Sistema")
     janela.geometry("800x500")
 
     texto = ttk.Text(janela, wrap="word")
