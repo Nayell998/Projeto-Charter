@@ -133,7 +133,7 @@ parte de Edimar
     texto.configure(state="disabled")
 
     ttk.Button(janela_log, text="Fechar", bootstyle=DANGER, command=janela_log.destroy).pack(pady=5)
-[17:40, 03/12/2025] Nayell: titulo_cadastro = ttk.StringVar()
+ titulo_cadastro = ttk.StringVar()
 autor_cadastro = ttk.StringVar()
 
 titulo_emprestimo = ttk.StringVar()
