@@ -1,1 +1,29 @@
+# --- FERNANDO: CONFIGURAÇÕES ---
+ARQUIVO = "biblioteca.json"
+LOG_ARQUIVO = "log.txt"
+biblioteca = []
 
+
+# --- FERNANDO: FUNÇÃO DE LOG ---
+def registrar_log(acao, tipo="INFO"):
+    try:
+        with open(LOG_ARQUIVO, "a", encoding="utf-8") as log:
+            data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            log.write(f"[{data_hora}] [{tipo}] {acao}\n")
+    except:
+        pass
+
+
+# --- FERNANDO: CARREGAR E SALVAR ---
+def carregar_dados():
+    global biblioteca
+    if os.path.exists(ARQUIVO):
+        with open(ARQUIVO, "r", encoding="utf-8") as f:
+            biblioteca = json.load(f)
+    else:
+        biblioteca = []
+
+
+def salvar_dados():
+    with open(ARQUIVO, "w", encoding="utf-8") as f:
+        json.dump(biblioteca, f, ensure_ascii=False, indent=4)
