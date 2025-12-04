@@ -1,1 +1,34 @@
+# --- LOG (Fernando) ---
+def registrar_log(acao, tipo="INFO"):
+    try:
+        with open(LOG_ARQUIVO, "a", encoding="utf-8") as log:
+            data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            log.write(f"[{data_hora}] [{tipo}] {acao}\n")
+    except Exception as e:
+        print(f"Erro ao registrar log: {e}")
 
+
+# --- CARREGAR DADOS (Fernando) ---
+def carregar_dados():
+    global biblioteca
+    if os.path.exists(ARQUIVO):
+        try:
+            with open(ARQUIVO, "r", encoding="utf-8") as f:
+                dados = json.load(f)
+                biblioteca = dados if isinstance(dados, list) else []
+            registrar_log("Dados carregados com sucesso.")
+        except Exception as e:
+            registrar_log(f"Erro ao carregar dados: {e}", "ERRO")
+            biblioteca = []
+    else:
+        registrar_log("Nenhum arquivo encontrado. Novo arquivo será criado.")
+
+
+# --- SALVAR DADOS (Fernando) ---
+def salvar_dados():
+    try:
+        with open(ARQUIVO, "w", encoding="utf-8") as f:
+            json.dump(biblioteca, f, ensure_ascii=False, indent=4)
+        registrar_log("Dados salvos com sucesso.")
+    except Exception as e:
+        registrar_log(f"Erro ao salvar dados: {e}", "ERRO")
