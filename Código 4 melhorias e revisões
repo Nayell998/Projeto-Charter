@@ -1,0 +1,103 @@
+PARTE DO FERNANDO (Arquivos + Log)
+ARQUIVO = "biblioteca.txt"
+LOG_ARQUIVO = "log.txt"
+biblioteca = []
+
+def registrar_log(acao):
+    with open(LOG_ARQUIVO, "a", encoding="utf-8") as log:
+        data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        log.write(f"[{data_hora}] {acao}\n")
+
+def carregar_dados():
+    global biblioteca
+    biblioteca.clear()
+    if os.path.exists(ARQUIVO):
+        with open(ARQUIVO, "r", encoding="utf-8") as f:
+            for linha in f:
+                partes = linha.strip().split(";")
+                if len(partes) == 4:
+                    titulo, autor, emprestado, quem = partes
+                    biblioteca.append({
+                        "titulo": titulo,
+                        "autor": autor,
+                        "emprestado": emprestado == "True",
+                        "quem": None if quem == "None" else quem
+                    })
+        registrar_log("Dados carregados do arquivo.")
+    else:
+        registrar_log("Arquivo de dados não encontrado. Biblioteca iniciada vazia.")
+
+def salvar_dados():
+    with open(ARQUIVO, "w", encoding="utf-8") as f:
+        for livro in biblioteca:
+            linha = f"{livro['titulo']};{livro['autor']};{livro['emprestado']};{livro['quem']}\n"
+            f.write(linha)
+    registrar_log("Dados salvos no arquivo.")
+
+PARTE DO THIAGO (Cadastrar / Emprestar / Devolver / Atualizar) 
+def atualizar_lista():
+    lista.delete(*lista.get_children())
+    for livro in biblioteca:
+        status = f"Emprestado para {livro['quem']}" if livro["emprestado"] else "Disponível"
+        lista.insert("", "end", values=(livro["titulo"], livro["autor"], status))
+
+def cadastrar_livro():
+    titulo = ttk.dialogs.Querybox.get_string("Título do livro:", "Cadastrar Livro")
+    if not titulo:
+        return
+    autor = ttk.dialogs.Querybox.get_string("Autor do livro:", "Cadastrar Livro")
+    if not autor:
+        return
+
+    biblioteca.append({
+        "titulo": titulo,
+        "autor": autor,
+        "emprestado": False,
+        "quem": None
+    })
+    salvar_dados()
+    atualizar_lista()
+    ttk.dialogs.Messagebox.ok(f"Livro '{titulo}' cadastrado com sucesso!", "Cadastro completo")
+    registrar_log(f"Livro cadastrado: {titulo} ({autor}).")
+
+def emprestar_livro():
+    item = lista.selection()
+    if not item:
+        ttk.dialogs.Messagebox.warning("Selecione um livro primeiro.", "Atenção")
+        return
+
+    idx = lista.index(item)
+    livro = biblioteca[idx]
+
+    if livro["emprestado"]:
+        ttk.dialogs.Messagebox.info("Este livro já está emprestado.", "Aviso")
+        return
+
+    nome = ttk.dialogs.Querybox.get_string("Nome de quem pega o livro:", "Emprestar Livro")
+    if nome:
+        livro["emprestado"] = True
+        livro["quem"] = nome
+        salvar_dados()
+        atualizar_lista()
+        ttk.dialogs.Messagebox.ok(f"Livro '{livro['titulo']}' emprestado para {nome}.", "Sucesso")
+        registrar_log(f"Livro emprestado: '{livro['titulo']}' para {nome}.")
+
+def devolver_livro():
+    item = lista.selection()
+    if not item:
+        ttk.dialogs.Messagebox.warning("Selecione um livro primeiro.", "Atenção")
+        return
+
+    idx = lista.index(item)
+    livro = biblioteca[idx]
+
+    if not livro["emprestado"]:
+        ttk.dialogs.Messagebox.info("Este livro não está emprestado.", "Informação")
+        return
+
+    livro["emprestado"] = False
+    livro["quem"] = None
+    salvar_dados()
+    atualizar_lista()
+    ttk.dialogs.Messagebox.ok(f"Livro '{livro['titulo']}' devolvido com sucesso!", "Devolução")
+    registrar_log(f"Livro devolvido: '{livro['titulo']}'.")
