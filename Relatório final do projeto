@@ -135,15 +135,15 @@ Registro de empréstimos e devoluções; para melhor organização
 
 Registro de livros perdidos com data e responsável; para que não perdemos nenhuma informação 
 
-Sistema de logs com registro horário; para guardar informações de seus recebimentos e e perdimentos por usuários
+Sistema de logs com registro horário; para guardar informações de seus recebimentos e perdimentos por usuários
 
 Organização simples em arquivo .txt, só que a gora é em JSON para melhorar o salvamento de dados 
 
-Interface funcional e direta; bem interativa e de fácil compreensão 
+Interface funcional e direta; bem interativa e de fácil compreensão e adaptação 
 
-Código revisado e refatorado conforme necessidade; de todos para possíveis melhorias
+Código revisado e refatorado conforme necessidade; de todos para possíveis melhorias e correção de bugs
 
-Kanban atualizado acompanhando progresso. De ambos em suas obrigações 
+Kanban atualizado acompanhando seu progresso, De ambos em suas obrigações.
 
 
 7. Resultados Obtidos
