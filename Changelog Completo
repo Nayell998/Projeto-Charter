@@ -1,9 +1,6 @@
 Biblioteca Solidária — Changelog.
 
 
-
----
-
 Versão 3.0 — 09/11/2025
 
 Nesta versão, o sistema recebeu aprimoramentos significativos em funcionalidades, interface e confiabilidade. O objetivo principal foi tornar a aplicação mais robusta, organizada e adequada ao uso contínuo.
@@ -75,9 +72,6 @@ Thiago: Desenvolvimento da lógica principal (cadastro, empréstimo, devolução
 Edimar: Testes funcionais, depuração e validação da interface.
 
 
-
----
-
 Versão 2.0 — 08/11/2025
 
 Esta versão marcou a transição do sistema baseado em terminal para uma interface gráfica funcional.
@@ -135,9 +129,6 @@ Thiago: Ajustes das funções principais de manipulação de livros.
 Edimar: Testes e análise de usabilidade.
 
 
-
----
-
 Versão 1.0 — 05/11/2025
 
 Primeira versão funcional do sistema, construída de forma simples e totalmente executada no terminal.
@@ -180,9 +171,6 @@ Fábio: Organização e padronização do código.
 Edimar: Testes iniciais e feedback sobre uso.
 
 
-
----
-
 Linha do Tempo do Projeto
 
 Data	Versão	Principais Mudanças
@@ -190,10 +178,6 @@ Data	Versão	Principais Mudanças
 05/11/2025	1.0	Primeira versão em terminal com armazenamento TXT
 08/11/2025	2.0	Interface gráfica inicial e migração para JSON
 09/11/2025	3.0	Registro de livros perdidos, logs completos e interface aprimorada
-
-
-
----
 
 Status Atual
 
@@ -217,9 +201,6 @@ Criação de painel de estatísticas com gráficos.
 Implementação de sistema de usuários e permissões.
 
 
-
----
-
 Equipe do Projeto
 
 Nome	Função	Contribuições Principais
@@ -229,9 +210,6 @@ Fábio	Interface e experiência	Layout, integração com JSON e sistema de logs
 Thiago	Lógica do sistema	Cadastro, empréstimo e devolução
 Edimar	Testes e qualidade	Detecção de erros e validação funcional
 
-
-
----
 
 Resumo Geral
 
