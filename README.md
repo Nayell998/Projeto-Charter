@@ -132,7 +132,7 @@ Funcionalidades adicionais poderão ser consideradas em versões futuras, confor
 
 ---
 
-Declaração Formal do Projeto
+Conclusão do projeto.
 
 O projeto Biblioteca Solidária consiste no desenvolvimento de um sistema informatizado minimalista, voltado à organização, controle e registro das movimentações do acervo da biblioteca. Sua implantação visa assegurar maior confiabilidade, reduzir ocorrências de extravio e otimizar o atendimento aos usuários.
 
