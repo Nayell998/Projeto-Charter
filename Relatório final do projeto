@@ -5,8 +5,6 @@ RELATÓRIO FINAL — Projeto “Biblioteca Solidária”
 Este relatório apresenta o desenvolvimento do sistema Biblioteca Solidária, criado ao longo das seis aulas da disciplina de Projeto Integrador. O objetivo foi desenvolver uma solução simples para registrar empréstimos, devoluções e controle de livros, reduzindo perdas e garantindo maior organização do acervo.
 
 
----
-
 2. Objetivo do Projeto
 
 O sistema foi projetado para:
@@ -19,9 +17,6 @@ Manter registros históricos através de arquivos de log;
 
 Minimizar erros humanos e melhorar o controle interno.
 
-
-
----
 
 3. Equipe e Responsabilidades
 
@@ -71,9 +66,6 @@ Organização do material entregue na Aula 6;
 Verificação de consistência da documentação.
 
 
-
----
-
 4. Metodologia
 
 O projeto foi guiado por práticas ágeis, incluindo:
@@ -88,9 +80,6 @@ Organização em Kanban;
 
 Desenvolvimento incremental (demos e MVP).
 
-
-
----
 
 5. Desenvolvimento por Etapas
 
@@ -140,9 +129,6 @@ Entrega do relatório técnico. (Fabio).
 Apresentação da Demo Final (Fernando e Fábio).
 
 
-
----
-
 6. Funcionalidades Implementadas
 
 Registro de empréstimos e devoluções; para melhor organização 
@@ -160,15 +146,10 @@ Código revisado e refatorado conforme necessidade; de todos para possíveis mel
 Kanban atualizado acompanhando progresso. De ambos em suas obrigações 
 
 
-
----
-
 7. Resultados Obtidos
 
 O sistema atendeu aos objetivos iniciais e demonstrou eficácia no controle de empréstimos. O desenvolvimento foi organizado de maneira ágil, com entregas parciais (demos) e ajustes contínuos, o que resultou em um MVP funcional e consistente.
 
-
----
 
 8. Conclusão
 
